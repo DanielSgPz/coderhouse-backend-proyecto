@@ -63,20 +63,23 @@ export class CartManager {
     addProductsToCart = async (cid, pid) => {
         const carts = await this.getCart()
         const convertToNumberCartId = parseInt(cid, 10);
-        const convertToNumberProductId = parseInt(pid, 10);
+        // const convertToNumberProductId = parseInt(pid, 10);
         const index = carts.findIndex(cart => cart.id === convertToNumberCartId)
-        console.log(index);
+        // console.log(index);
 
         if (index !== -1) {
-            const cartProducts = await this.getCartProducts(cid)
-            const indexProduct = cartProducts.findIndex(product => product.id === convertToNumberProductId)
-            console.log(indexProduct);
+            const cartProducts = await this.getCartProducts(convertToNumberCartId)
+            // console.log(cartProducts);
+            const indexProduct = cartProducts.findIndex(product => product.pid === pid)
+            // console.log(indexProduct);
             if (indexProduct !== -1) {
                 cartProducts[indexProduct].quantity = cartProducts[indexProduct].quantity + 1
+                // console.log(cartProducts[indexProduct].quantity);
             } else {
                 cartProducts.push({ pid, quantity: 1 })
             }
             carts[index].products = cartProducts;
+            // console.log(carts[index].products);
             await fs.writeFile(this.path, JSON.stringify(carts))
             console.log('Producto agregado!');
         } else {

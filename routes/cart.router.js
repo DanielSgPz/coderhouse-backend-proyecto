@@ -19,7 +19,7 @@ cartRouter.post('/:cid/products/:pid' , async (req, res ) =>{
     const {cid, pid} = req.params;
     try {
         await cartManager.addProductsToCart(cid, pid)
-        res.json(newCart)
+        res.send('Producto agregado! (router)')
     } catch (error) {
         res.send('Error al guardar producto en el carrito (router)')
         
